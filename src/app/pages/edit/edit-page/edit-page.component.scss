@@ -1,0 +1,75 @@
+// .left-col{
+//     // flex-direction:column;
+//     margin:5px;
+//     padding:5px;
+//     border: 1px solid white;
+// }
+// .right-col{
+//     display: grid;
+//     margin:5px;
+//     padding:5px;
+//     border: 1px solid white;
+//     overflow: hidden;
+// }
+
+.buttonSelected{
+    border: 2px solid #205d6c; 
+    border-radius: 4px;  /* Rounded border */
+}
+.visualisation-container{
+    min-width: 90vw;
+    align-items: center;
+    // grid-template-rows: 30px 1fr 30px;
+}
+#canvas{
+    border: 1px solid white; 
+    margin:5px;
+}
+.container-fluid{
+    height: 100%;
+    // min-width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+    max-height: 75vh;
+    overflow-y: scroll;
+}
+.classes-container{
+    height: 100%;
+    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+.thumbnail{
+    position: static;
+    border: 2px solid rgba(255,255,255,0); /* Gray border */
+    border-radius: 4px;  /* Rounded border */
+    padding: 5px; /* Some padding */
+    height: 80px; /* Set a small width */
+
+    // margin: 10px;
+}
+.thumbnail:hover {
+    box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}
+mat-radio-group {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+}
+  
+mat-radio-button {
+    margin: 5px;
+}
+.defect-info{
+    border:1px solid rgba(255,255,255,0.3);
+    border-radius: 5px;
+}
+.thumbnailSelected {
+    border: 2px solid rgba(255,255,255,0.5); /* Gray border */
+}
+.verified {
+    border: 2px solid #47e6c3
+}
+.draw{
+    cursor: crosshair;
+}

@@ -1,0 +1,61 @@
+<p class="h3 py-3 text-center">Existing User</p>
+<mat-card class="text-center" style="width: 50vw;" *ngIf="allUsers.length === 0">
+  <mat-card-content>No existing user! Please create a new user below!</mat-card-content>
+</mat-card>
+<mat-accordion>
+  <mat-expansion-panel style="width: 50vw;" hideToggle="false" *ngFor="let user of allUsers">
+
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <div class="row" style="width: 100%;">
+          <div class="col">
+            <b>Username:</b><span class="ml-2">{{ user.username }}</span>
+          </div>
+          <div class="col">
+            <b>Role:</b><span class="ml-2">{{ user.role }}</span>
+          </div>
+        </div>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <p class="pb-0" style="color: #00B0F0;">Permission Settings</p>
+
+    <mat-selection-list [(ngModel)]="user.permission">
+      <mat-list-option *ngFor="let project of allProjects" [value]="project.id">
+        {{ project.name }}
+      </mat-list-option>
+    </mat-selection-list>
+
+    <mat-action-row>
+      <button mat-flat-button color="accent" (click)="deleteUser(user.username)">Delete User</button>
+      <button mat-flat-button color="accent" (click)="updateUserPermission(user.username)">Update Permission</button>
+    </mat-action-row>
+
+  </mat-expansion-panel>
+</mat-accordion>
+
+<hr class="my-4"/>
+
+<p class="h3 text-center">Add User</p>
+<mat-card class="py-2 my-4 mx-auto" style="width: 60%;">
+  <mat-card-content class="text-center">
+    <form (submit)="createNewUser(userForm)" #userForm="ngForm">
+      <mat-form-field>
+        <input matInput placeholder="username" type="text" name="newUsername" [ngModel]="something?.newUsername" #newUsername="ngModel" required>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput placeholder="password" type="text" name="newPassword" [ngModel]="something?.newPassword" #newPassword="ngModel" required>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>role</mat-label>
+        <mat-select name="newRole" [ngModel]="something?.newRole" #newRole="ngModel" required>
+          <mat-option value="user">user</mat-option>
+          <mat-option value="client">client</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <p><button mat-raised-button color="accent" type="submit">Create User</button></p>
+    </form>
+  </mat-card-content>
+</mat-card>
+

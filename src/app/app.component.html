@@ -1,0 +1,25 @@
+<div class="site-container">
+    <app-top-bar #topBar class="sticky-top"></app-top-bar>
+
+    <mat-sidenav-container class="mat-app-background site">
+
+        <mat-sidenav mode="over"
+                     [opened]="gs.sideOpened"
+                     [fixedInViewport]="true"
+                     [fixedTopGap]="gs.sideNavOffset">
+                  <app-sidenav class="d-flex flex-column h-100 dark"></app-sidenav>
+                    <!-- <app-sidenav></app-sidenav> -->
+        </mat-sidenav>
+
+        <mat-sidenav-content class="site-content-container">
+            <div *ngIf="gs.loading" class="loading-container">
+                <img class="loading" src="../../assets/loading.gif">
+                <h6 class="mt-1"><samp style="font-size:0.9em;">Loading...</samp></h6>
+            </div>
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+
+    </mat-sidenav-container>
+
+    <app-footer></app-footer>
+</div>

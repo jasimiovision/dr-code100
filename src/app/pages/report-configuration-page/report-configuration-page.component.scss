@@ -1,0 +1,110 @@
+.config-container{
+    min-width: 90vw;
+    max-width: 95vw;
+    min-height: 70vh;
+}
+.title{
+    padding: 20px;
+    text-align: center;
+    font-size: 3rem;
+    font-family: 'Helvetica Neue', sans-serif; 
+    font-weight: bold; 
+    letter-spacing: -1px; 
+    line-height: 1; 
+}
+.headings-container{
+    background-color: #3f3f3f;
+}
+.editor-container{
+    // max-width: 23cm;
+    background-color: whitesmoke;
+}
+.report-container{
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+// .canvas-image{
+//     max-width: 30vw;
+//     width: 100%;
+//     // padding-top: 100%; /* 1:1 Aspect Ratio */
+//     align-self: center;
+// }
+#report-thumbnail{
+    width : 100%;
+    height : 100%;
+    align-self: center;
+}
+#report-thumbnail:hover{
+    opacity: 0.5;
+    cursor: pointer;
+}
+//////////////// for preview generation ////////////////
+#previewInfo{
+    table{
+        border-spacing: 0;
+        border-collapse: collapse;
+        width: 100%;
+      }
+    top:100vh;
+    position: fixed;
+    width: 26cm;
+    padding: 20mm 20mm 20mm 20mm; 
+    // show start of report only
+    height: 120vh;
+    overflow: hidden; 
+    color: black;
+}
+
+////////////////////////////////////////////////////////
+ckeditor{
+    color: black;
+}
+
+.report-templates-container {
+    min-width: 90vw;
+    max-width: 95vw;
+    margin:auto;
+    border: 2px solid #3f3f3f;
+}
+// .flex-container {
+//   /* We first create a flex layout context */
+//   display: flex;
+//   /* Then we define the flow direction
+//      and if we allow the items to wrap
+//    * Remember this is the same as:
+//    * flex-direction: row;
+//    * flex-wrap: wrap;
+//    */
+//   flex-flow: row wrap;
+//   /* Then we define how is distributed the remaining space */
+//   justify-content: flex-start;
+//   // padding: 0;
+//   margin: 0;
+// }
+
+.flex-item-template {
+    border-radius: 10px;
+    overflow: hidden;
+    min-width: 24vw;
+}
+.thumbnail-content{
+    position: absolute;
+    top:0;
+    left:0;
+    width : 100%;
+    height: 100%;
+}
+.thumbnail-card:hover{
+    background: none;
+}
+.thumbnail-image{
+    opacity: 0.3;
+    z-index: -5;
+}
+.thumbnail-placeholder{
+    visibility: hidden;
+    width : 100%;
+}
+mat-card-content{
+    overflow: hidden;
+}

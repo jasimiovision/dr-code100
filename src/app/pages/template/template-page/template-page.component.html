@@ -1,0 +1,115 @@
+<div id="previewInfo"></div>
+<mat-form-field class="template-info mt-5">
+        <mat-label>Template Name: </mat-label>
+        <textarea 
+        matInput 
+        cdkTextareaAutosize 
+        cdkAutosizeMinRows="2"
+        [(ngModel)]="templateData.template_name"
+        class="title">
+        </textarea>
+</mat-form-field>
+<mat-form-field class="template-info mt-2">
+        <mat-label>Description:</mat-label>
+        <textarea 
+        matInput 
+        cdkTextareaAutosize 
+        cdkAutosizeMinRows="2"
+        [(ngModel)]="templateData.template_description">
+        </textarea>
+</mat-form-field>
+
+
+
+<div class="d-flex flex-column" id="toolbar">
+    <!-- <mat-slide-toggle [(ngModel)]="isClient">{{ isClient ? 'View Mode' : 'Edit Mode' }}</mat-slide-toggle> -->
+    <button class="m-1 move-toolbar" 
+            mat-icon-button 
+            color="accent"
+            disabled
+            matTooltip="Drag toolbar">
+            <mat-icon>drag_indicator</mat-icon>
+    </button>
+    <button class="m-1" 
+            mat-icon-button 
+            color="accent"
+            (click)="scrollToTop()"  
+            matTooltip="Scroll to top">
+            <mat-icon>vertical_align_top</mat-icon>
+    </button>
+    <button class="m-1" 
+            mat-icon-button 
+            color="accent" 
+            (click)="addEntry()"
+            matTooltip="Add new text cell.">
+            <mat-icon>add</mat-icon>
+    </button>
+    <button class="m-1" 
+            mat-icon-button 
+            (click)="saveTemplate()" 
+            color="accent" 
+            matTooltip="Save template">
+            <mat-icon>save</mat-icon>
+    </button>
+    <button class="m-1" 
+            mat-icon-button 
+            (click)="previewTemplate()" 
+            color="accent"
+            matTooltip="View template print preview">
+            <mat-icon>visibility</mat-icon>
+    </button>
+    <button class="m-1 move-toolbar" 
+            mat-icon-button 
+            color="accent"
+            disabled
+            matTooltip="Drag toolbar">
+            <mat-icon>drag_indicator</mat-icon>
+    </button>
+</div>
+
+<h2 class="mt-3">Template Header</h2>
+<div class="editor-container my-4">
+        <ckeditor 
+        [editor]="Editor" 
+        [config]="editorConfig" 
+        [(ngModel)]="templateData.header_data" 
+        (ready)="onReady($event)"
+      ></ckeditor>
+</div>
+
+<h2 class="mt-3">Template Content</h2>
+<div *ngFor="let entry of templateData.content; index as i">
+  
+    <div class="editor-container my-4" *ngIf="entry.type === 'editor'">
+      <div class="row no-gutters justify-content-end px-3 headings-container">
+        <button mat-icon-button 
+                color="accent" 
+                (click)="shiftUp(i)" 
+                *ngIf="i!==0"
+                matTooltip="Shift cell upwards">
+                <mat-icon>arrow_upward</mat-icon>
+        </button>
+        <button mat-icon-button 
+                color="accent" 
+                (click)="shiftDown(i)" 
+                *ngIf="i!==templateData.content.length-1"
+                matTooltip="Shift cell downwards">
+                <mat-icon>arrow_downward</mat-icon>
+        </button>
+        <button mat-icon-button 
+                color="accent" 
+                (click)="deleteEntry(entry.id)"
+                matTooltip="Delete cell">
+                <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+      <ckeditor 
+      [editor]="Editor" 
+      [config]="editorConfig" 
+      [(ngModel)]="entry.reportData" 
+      (ready)="onReady($event)"
+      ></ckeditor>
+    </div>
+    
+  </div>
+  <hr>

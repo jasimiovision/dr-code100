@@ -1,0 +1,37 @@
+<mat-toolbar #toolBar>
+    <mat-toolbar-row>
+      <button mat-button (click)="gs.sideToggle()" *ngIf="userIsAuthenticated && !gs.isSideToggleInactive()">
+        <!-- [disabled]="gs.isSideToggleInactive()" -->
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <div id="app-name-logo" routerLink='/home'>
+        <img src='assets/full-logo.png'
+                  style="max-height: 50px;">
+        <span class="text-monospace">x dr.one</span>
+      </div>
+
+      <span class="text-center font-weight-bold example-spacer"><samp>{{ gs.getPageTitle() }}</samp></span>
+
+      <div class="small">
+        <div><samp>{{ date | date: "fullDate" }}</samp></div>
+        <div class="text-right"><samp>{{ date | date: "mediumTime" }}</samp></div>
+      </div>
+
+      <button class="ml-3" mat-icon-button [matMenuTriggerFor]="account" *ngIf="userIsAuthenticated">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu class="pb-0" #account="matMenu">
+        <div mat-menu-item routerLink='/home' class="text-center font-weight-bold">Welcome, {{ username }}.</div>
+        <button mat-menu-item routerLink='/admin' *ngIf="isAdmin">
+          <mat-icon>admin_panel_settings</mat-icon>
+          {{gs.titleToRouteMap["admin"]}}
+        </button>
+        <button mat-menu-item (click)="onLogout()">
+          <mat-icon>exit_to_app</mat-icon>
+          Logout
+        </button>
+      </mat-menu>
+
+    </mat-toolbar-row>
+</mat-toolbar>

@@ -1,0 +1,156 @@
+<div id="previewInfo"></div>
+<h1 class="title mt-4"> Project :  {{projectName}} </h1>
+<div class="d-flex flex-column" id="toolbar" *ngIf="!isClient">
+    <!-- <mat-slide-toggle [(ngModel)]="isClient">{{ isClient ? 'View Mode' : 'Edit Mode' }}</mat-slide-toggle> -->
+    <button class="m-1 move-toolbar" 
+            mat-icon-button 
+            color="accent"
+            disabled
+            matTooltip="Drag toolbar">
+            <mat-icon>drag_indicator</mat-icon>
+    </button>
+    <button class="m-1" 
+            mat-icon-button 
+            color="accent"
+            (click)="scrollToTop()"  
+            matTooltip="Scroll to top">
+            <mat-icon>vertical_align_top</mat-icon>
+    </button>
+    <button class="m-1" 
+            mat-icon-button 
+            color="accent" 
+            [matMenuTriggerFor]="menu" 
+            [disabled]="isClient"
+            matTooltip="Add new cell">
+            <mat-icon>add</mat-icon>
+    </button>
+    <button *ngIf="isAdmin"
+            class="m-1" 
+            mat-icon-button 
+            (click)="saveAsTemplate()" 
+            color="accent" 
+            matTooltip="Save report as a template">
+            <mat-icon>bookmark_border</mat-icon>
+    </button>
+    <button class="m-1" 
+            mat-icon-button 
+            (click)="saveReport()" 
+            color="accent" 
+            [disabled]="isClient"
+            matTooltip="Save report">
+            <mat-icon>save</mat-icon>
+    </button>
+    <button class="m-1" 
+            mat-icon-button 
+            (click)="previewReport()" 
+            color="accent"
+            matTooltip="View full report print preview">
+            <mat-icon>visibility</mat-icon>
+    </button>
+    <button class="m-1" 
+            mat-icon-button 
+            [routerLink]="['/report-config', currentProjId]"
+            color="accent"
+            matTooltip="View report header/configuration">
+            <mat-icon>settings</mat-icon>
+    </button>
+    <!-- <button class="m-1 move-toolbar" 
+            mat-icon-button 
+            color="accent"
+            disabled
+            matTooltip="Drag toolbar">
+            <mat-icon>drag_indicator</mat-icon>
+    </button> -->
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item 
+              (click)="addEntry('editor', null)">
+              Text Editor
+      </button>
+      <button mat-menu-item 
+              *ngIf="gs.getProjectType()=='dr-one'" 
+              [matMenuTriggerFor]="floorplans">
+              Floorplan
+      </button>
+    </mat-menu>
+
+    <mat-menu #floorplans="matMenu">
+
+      <button mat-menu-item 
+              (click)="addEntry('floorplan', floorplanId)" 
+              *ngFor="let floorplanId of floorplanIds">
+              Floorplan ID: {{ floorplanId }}
+      </button>
+    </mat-menu>
+
+</div>
+
+
+
+<div *ngFor="let entry of reportData.content; index as i">
+  
+  <div class="editor-container my-4" *ngIf="entry.type === 'editor'">
+    <div class="row no-gutters justify-content-end px-3 headings-container" *ngIf="!isClient">
+      <button mat-icon-button 
+              color="accent" 
+              (click)="shiftUp(i)" 
+              *ngIf="i!==0"
+              matTooltip="Shift cell upwards">
+              <mat-icon>arrow_drop_up</mat-icon>
+      </button>
+      <button mat-icon-button 
+              color="accent" 
+              (click)="shiftDown(i)" 
+              *ngIf="i!==reportData.content.length-1"
+              matTooltip="Shift cell downwards">
+              <mat-icon>arrow_drop_down</mat-icon>
+      </button>
+      <button mat-icon-button 
+              color="accent" 
+              (click)="deleteEntry(entry.id)"
+              matTooltip="Delete cell">
+              <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+    <ckeditor 
+    [editor]="Editor" 
+    [config]="editorConfig" 
+    [(ngModel)]="entry.relevantInfo" 
+    [disabled]="isClient"
+    (ready)="onReady($event)"
+    ></ckeditor>
+  </div>
+  
+  <div class="floorplan my-4" *ngIf="entry.type === 'floorplan'">
+    <div class="row no-gutters justify-content-end px-3 headings-container" *ngIf="!isClient">
+      <button mat-icon-button 
+              color="accent" 
+              (click)="shiftUp(i)" 
+              *ngIf="i!==0"
+              matTooltip="Shift cell upwards">
+              <mat-icon>arrow_drop_up</mat-icon>
+      </button>
+      <button mat-icon-button 
+              color="accent" 
+              (click)="shiftDown(i)" 
+              *ngIf="i!==reportData.content.length-1"
+              matTooltip="Shift cell downwards">
+              <mat-icon>arrow_drop_down</mat-icon>
+      </button>
+      <button mat-icon-button 
+              color="accent" 
+              (click)="deleteEntry(entry.id)"
+              matTooltip="Delete floorplan figure">
+              <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+    <app-floor-plan
+    [lockDefects]="true"
+    [selectedFloorplanId]="entry.relevantInfo"
+    [routerLink]="['/visualization', currentProjId]"
+    ></app-floor-plan>
+  </div>
+</div>
+<hr>
+
+

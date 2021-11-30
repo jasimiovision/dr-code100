@@ -1,0 +1,28 @@
+<!-- inline styles so that newWindow can load -->
+<!-- Note: height/width dimensions should be w.r.t. parent container, not viewport, or coordinates will screw up upon printing -->
+<!-- scss style sheet not read in new window -->
+<div>
+    <div style="position:relative; display:inline-flex;"
+        (resized)="onResized($event)">
+
+        <img style="width:100%;" #selectedFloorplan>
+        <svg style="height:100%; 
+                    width:100%;
+                    position: absolute;
+                    top: 0;
+                    left: 0;">
+            <circle *ngFor="let defect of unnormalisedDefects"
+            class="item" r="5" stroke="black" stroke-width="1" fill="#fff3c2"
+            [ngClass]="{defectSelected: defect.id === selectedDefect.id}"
+            cdkDrag [cdkDragDisabled]="lockDefects"
+            [cdkDragFreeDragPosition]="defect" cdkDragBoundary="#dragBoundary"
+            (cdkDragEnded)="positionChanged(defect, $event)"
+            (click)="onSelect(defect)"/>
+        </svg>
+  
+    </div>
+    <div class="text-center">
+        <samp>Floorplan ID: {{ selectedFloorplanId }}</samp>
+    </div>
+
+</div>

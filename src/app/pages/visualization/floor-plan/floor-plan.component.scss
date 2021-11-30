@@ -1,0 +1,31 @@
+// style sheet not read in new window
+.item {
+    cursor: move;
+}
+// .boundary {
+//     border: dotted #ccc 2px;
+// }
+// .floorplan-overlay {
+//     position: relative;
+//     /* to wrap image size */
+//     display: inline-flex; 
+//     /* display: flex  */
+//     max-width: 50vw;
+// }
+// .dragBoundary {
+//     /* follow floorplan-overlay which follows image */
+//     height:100%; 
+//     width:100%;
+// }
+// .floorplan-overlay .dragBoundary {
+//     position: absolute;
+//     top: 0;
+//     left: 0;
+// }
+// .floorplanImg {
+//     width:100%;
+// }
+.defectSelected{
+    fill: #ffcc00;
+    stroke-width:"3";
+}

@@ -1,0 +1,10 @@
+<form (submit)="onRetrieveImage(imageForm)" #imageForm="ngForm">
+  <mat-form-field>
+    <input matInput #fileId placeholder="File ID" type="text" name="fileId" ngModel required>
+    <mat-error *ngIf="fileId.invalid">Please enter a file id</mat-error>
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="submit">Get Image</button>
+  <div *ngIf="imgURL !== '' && imgURL">
+    <img [src]="imgURL">
+  </div>
+</form>

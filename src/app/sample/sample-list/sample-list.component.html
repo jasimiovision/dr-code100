@@ -1,0 +1,13 @@
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<div *ngIf="!isLoading">
+  <mat-card class="my-1" *ngFor="let value of values">
+    <mat-card-content>
+      <p>{{ value.player }} has chosen the slider value of {{ value.value }}</p>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <a mat-button color="primary" [routerLink]="['/sample/edit', value.id]">EDIT</a>
+      <button mat-button color="warn" (click)="onDelete(value.id)">DELETE</button>
+    </mat-card-actions>
+  </mat-card>
+  <p class="text-monospace text-center" *ngIf="values.length <= 0">No results yet</p>
+</div>

@@ -1,0 +1,14 @@
+<mat-toolbar>
+    <mat-toolbar-row>
+      <h2> Pages </h2>
+    </mat-toolbar-row>
+</mat-toolbar>
+<mat-nav-list>
+  <div *ngFor="let route of availableRoutes()">
+    <a mat-list-item
+      routerLinkActive="list-item-active" (click)="navigate(route)">
+      <mat-icon matListIcon style="margin:2px"> {{ route.icon }} </mat-icon>
+      {{route.title}}
+    </a>
+  </div>
+</mat-nav-list>

@@ -1,0 +1,12 @@
+<form (submit)="onUploadImage(imageInput)" #uploadForm="ngForm">
+  <div>
+    <button mat-stroked-button type="button" (click)="imageInput.click()">Pick Image</button>
+    <input type="file" #imageInput (change)="onImagePicked(imageInput)" required>
+    <p class="text-danger" *ngIf="isNotImage">Please only upload image</p>
+  </div>
+  <div class="image-preview" *ngIf="!isNotImage && imagePreview !== '' && imagePreview">
+    <img [src]="imagePreview">
+  </div>
+  <br/>
+  <button mat-raised-button color="primary" type="submit">Upload</button>
+</form>

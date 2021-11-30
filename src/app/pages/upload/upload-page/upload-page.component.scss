@@ -1,0 +1,29 @@
+.image-preview {
+  height: 10rem;
+  margin-bottom: 1rem;
+}
+
+.floorplan-overlay {
+  position: relative;
+  display: inline-flex; // to wrap image and svg size
+}
+
+svg {
+  height:100%; // follow floorplan-overlay which follows image
+  width:100%;
+}
+
+.floorplan-overlay svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#uploadedFloorplan {
+  width:100%;
+  max-width: 50vw;
+}
+
+line:hover, circle:hover {
+  cursor: pointer;
+}

@@ -1,0 +1,64 @@
+// .flex-container {
+//   /* We first create a flex layout context */
+//   display: flex;
+//   /* Then we define the flow direction
+//      and if we allow the items to wrap
+//    * Remember this is the same as:
+//    * flex-direction: row;
+//    * flex-wrap: wrap;
+//    */
+//   flex-flow: row wrap;
+//   /* Then we define how is distributed the remaining space */
+//   justify-content: flex-start;
+//   // padding: 0;
+//   margin: 0;
+// }
+
+
+.flex-item {
+  border-radius: 7px;
+  overflow: hidden;
+  min-width: 30vw;
+}
+.flex-item-template {
+  border-radius: 10px;
+  overflow: hidden;
+  min-width: 24vw;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.newProject{
+  border: 3px dotted rgba(255,255,255,0.5);
+  opacity: 0.5;
+  cursor: pointer;
+  padding: 16px;
+  // border-radius: 4px;
+}
+.thumbnail-content{
+  position: absolute;
+  top:0;
+  left:0;
+  width : 100%;
+  height: 100%;
+}
+.thumbnail-card:hover{
+  background: none;
+}
+.thumbnail-image{
+  opacity: 0.3;
+  z-index: -5;
+}
+.thumbnail-placeholder{
+  visibility: hidden;
+  width : 100%;
+}
+mat-card-content{
+  overflow: hidden;
+}
+mat-card-content:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}

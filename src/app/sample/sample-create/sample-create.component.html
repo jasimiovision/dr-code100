@@ -1,0 +1,14 @@
+<mat-card class="my-3">
+  <mat-card-title>Component Sample</mat-card-title>
+  <mat-card-content>
+    <form (submit)="onBtnClick(sliderForm)" #sliderForm="ngForm">
+      <mat-form-field>
+        <input matInput placeholder="Name" type="text" name="player" [ngModel]="slideVal?.player" required #player="ngModel">
+        <mat-error *ngIf="player.invalid">Please enter your name</mat-error>
+      </mat-form-field>
+      <br/>
+      <mat-slider min="1" max="100" step="1" thumbLabel="thumbLabel" name="sliderValue" [ngModel]="slideVal?.value"></mat-slider>
+      <button mat-raised-button color="primary" type="submit">Done</button>
+    </form>
+  </mat-card-content>
+</mat-card>

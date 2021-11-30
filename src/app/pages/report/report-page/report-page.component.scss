@@ -1,0 +1,67 @@
+// :host ::ng-deep .ck-editor__editable_inline {
+//   width: 80vw;
+// }
+#toolbar{
+  position: fixed;
+  z-index: 5;
+  background: #4f4f4f;
+  border-radius: 4px;
+  top: 30vh;
+  left: 5vw;
+}
+#toolbar:hover{
+  border: 1px solid #218d9ef7;
+}
+.move-toolbar{
+  opacity: 0.2;
+}
+.move-toolbar:hover{
+  cursor: move;
+}
+.title{
+  padding: 20px;
+  text-align: center;
+  font-size: 3rem;
+  font-family: 'Helvetica Neue', sans-serif; 
+  font-weight: bold; 
+  letter-spacing: -1px; 
+  line-height: 1; 
+}
+.editor-container{
+  max-width: 23cm;
+  background-color: whitesmoke;
+  border-radius: 4px;
+}
+.headings-container{
+    background-color: #3f3f3f;
+    width: 100%;
+}
+.floorplan {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width:fit-content;
+  max-width: 23cm;
+  margin: auto;
+}
+ckeditor{
+  color: black;
+}
+//////////////// for preview generation ////////////////
+#previewInfo{
+  table{
+    border-spacing: 0;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  top:100vh;
+  position: fixed;
+  width: 26cm;
+  padding: 20mm 20mm 20mm 20mm; 
+  // show start of report only
+  height: 120vh;
+  overflow: hidden; 
+  color: black;
+}
+////////////////////////////////////////////////////////

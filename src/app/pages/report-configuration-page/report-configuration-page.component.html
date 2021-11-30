@@ -1,0 +1,125 @@
+
+<div id="previewInfo"></div>
+<div class="row no gutters config-container align-items-center">
+    <div class="col-8 pt-0 p-4 align-items-center">
+        <h1 class="title">Project: {{projectName}} </h1>
+        <div class="report-container">
+            <div class="row no-gutters py-2 px-4 justify-content-between headings-container"
+                 matTooltip="Header will be repeated on the start of all pages in print layout.">
+                <h5 class="pt-2"> Header </h5>
+                <button 
+                    *ngIf="!isClient"
+                    mat-button 
+                    color="accent" 
+                    (click)="saveHeader()">
+                    <mat-icon style="margin:2px">save</mat-icon>
+                    Save Header
+                </button> 
+            </div>
+            <div class="editor-container">
+                <ckeditor 
+                [editor]="Editor" 
+                [config]="editorConfig" 
+                [(ngModel)]="reportData.header_data" 
+                [disabled]="isClient"
+                (ready)="onReady($event)"
+                ></ckeditor>
+            </div>
+        </div>
+         <div class="report-container">
+            <div class="row no-gutters py-2 px-4 justify-content-between headings-container"
+                 matTooltip="Header will be repeated on the start of all pages in print layout.">
+                <h5 class="pt-2"> Footer </h5>
+                <button 
+                    *ngIf="!isClient"
+                    mat-button 
+                    color="accent" 
+                    (click)="saveFooter()">
+                    <mat-icon style="margin:2px">save</mat-icon>
+                    Save Footer
+                </button> 
+            </div>
+            <div class="editor-container">
+                <ckeditor 
+                [editor]="Editor" 
+                [config]="editorConfig" 
+                [(ngModel)]="reportData.footer_data" 
+                [disabled]="isClient"
+                (ready)="onReady($event)"
+                ></ckeditor>
+            </div>
+        </div>
+               
+    </div>
+
+    <div class="col-4 p-2">
+        <div class="d-flex flex-column report-container">
+            <div class="row no-gutters py-2 px-3 headings-container">
+                <h5 class="pt-2"> Report Preview </h5>
+                <div class="col"></div>
+                <button 
+                    *ngIf="!isClient"
+                    mat-icon-button 
+                    color="accent" 
+                    [routerLink]="['/report', currentProjId]"
+                    matTooltip="Edit report content">
+                    <mat-icon style="margin:2px">edit</mat-icon>
+                </button>
+                <button mat-icon-button color="accent" 
+                        (click)="previewReport()"
+                        matTooltip="View full report print preview">
+                    <mat-icon style="margin:2px">fullscreen</mat-icon>
+                </button>
+            </div>
+            <img id="report-thumbnail" 
+                (click)="previewReport()"
+                matTooltip="View full report print preview">
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!isClient" class="mt-2 mb-4 d-flex flex-column report-templates-container">
+    <div class="py-2 px-3 headings-container">
+        <h5 class="pt-2"> Report Templates </h5>
+    </div>
+    <div class="row no-gutters p-3 flex-wrap" style="max-width: 100%;">
+        <ng-container *ngFor="let template of allTemplates">
+            <div class="m-2 col no-gutters flex-item-template">
+            <mat-card class="d-flex flex-column p-4 thumbnail-content thumbnail-card">
+                <mat-card-content 
+                class="flex-grow-1">
+                <h4 class="mb-2 text-bold">{{ template.template_name }}</h4>
+                <p [matTooltip]="template.template_description">
+                    <small>{{ template.template_description }}</small>
+                </p>
+                </mat-card-content>
+                <mat-card-actions align="end" >
+                    <button 
+                        class="mx-2"
+                        mat-icon-button
+                        color="accent"
+                        (click)="appendToReport(template)"
+                        matTooltip="Append template to existing report">
+                        <mat-icon style="color:whitesmoke;">queue</mat-icon>
+                    </button>
+                    <button 
+                        class="mx-2"    
+                        mat-icon-button
+                        color="accent"
+                        (click)="previewTemplate(template)"
+                        matTooltip="View template preview">
+                        <mat-icon style="color:whitesmoke;">visibility</mat-icon>
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+            <img class="thumbnail-placeholder" *ngIf="template.thumbnail_key" [src]="template.thumbnail_key">
+            <img class="thumbnail-image thumbnail-content" *ngIf="template.thumbnail_key" [src]="template.thumbnail_key">
+            </div>
+        </ng-container>
+    
+        <div class="m-2 col flex-item-template"></div>
+        <div class="m-2 col flex-item-template"></div>
+        <div class="m-2 col flex-item-template"></div>
+
+    </div>
+</div>

@@ -1,0 +1,36 @@
+<div class="background-wrapper">
+  <img src="../../../../assets/wallpaper.jpg" class="bg-image" >
+  <mat-card class="login-card">
+    <mat-card-title style="font-size:4rem;">dr. one</mat-card-title>
+    <mat-card-subtitle >An all-in-one solution for drone-based inspection.</mat-card-subtitle>
+    <mat-card-content>
+      <form (submit)="onLogin(sliderForm)" #sliderForm="ngForm">
+        <mat-form-field>
+          <input matInput 
+                  placeholder="Username" 
+                  type="text" 
+                  name="username" 
+                  [ngModel]="something?.username" 
+                  required 
+                  #username="ngModel">
+          <mat-error *ngIf="username.invalid">Please enter your name</mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+          <input matInput 
+                  placeholder="Password" 
+                  type="password" 
+                  name="password" 
+                  [ngModel]="something?.password" 
+                  required 
+                  #password="ngModel">
+          <mat-error *ngIf="password.invalid">Please enter your password</mat-error>
+        </mat-form-field>
+        <p class="my-3"><button mat-raised-button color="accent" type="submit">Login</button></p>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
+

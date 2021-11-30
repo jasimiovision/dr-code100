@@ -1,0 +1,32 @@
+::ng-deep .mat-focused .mat-form-field-label {
+    /*change color of label*/
+    color: white !important;
+}
+::ng-deep.mat-form-field-ripple {
+    /*change color of underline when focused*/
+    background-color: #205d6c !important;;
+}
+::ng-deep .mat-input-element { 
+    caret-color: white; 
+}
+.bg-image{
+    position: fixed;
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;
+    object-fit: cover;
+}
+.background-wrapper{
+    height:100%;
+    border-radius: 10px;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.login-card{
+    margin-top:14vh; 
+    opacity: 0.9;
+    padding: 10%;
+    width: 35vw;
+}

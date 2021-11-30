@@ -1,0 +1,203 @@
+<p></p>
+
+<form [formGroup]="projectSettingForm">
+  <mat-horizontal-stepper #linearHorizontalStepper="matHorizontalStepper" [linear]="isLinear">
+    <mat-step [stepControl]="projectSettingForm">
+      <ng-template matStepLabel>Project Setting</ng-template>
+      <p style="color: #00B0F0;">Global Project Setting</p>
+      <mat-form-field>
+        <mat-label>Project Name</mat-label>
+        <input matInput formControlName="projectName" required>
+        <mat-error>This field is required</mat-error>
+      </mat-form-field>
+      <br/>
+      <div class="row no-gutters">
+        <div class="col">
+          <mat-form-field hintLabel="Separate each file by a comma" class="pr-1" style="width: 80%;">
+            <mat-label>Video Filenames (S3 Object Keys)</mat-label>
+            <textarea matInput
+                      rows="4"
+                      formControlName="videoFilenames"
+                      (change)="updatePairingDisplay()"
+                      required></textarea>
+            <mat-error>This field is required</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field hintLabel="Separate each file by a comma" class="pl-1" style="width: 80%;">
+            <mat-label>Flightlog Filenames (S3 Object Keys)</mat-label>
+            <textarea matInput
+                      rows="4"
+                      cols="30"
+                      formControlName="flightlogFilenames"
+                      (change)="updatePairingDisplay()"
+                      required></textarea>
+            <mat-error>This field is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <br/>
+      <div>
+        <p class="mb-0 small"><samp>Video x Flightlog Pairs (verify here)</samp></p>
+        <ul>
+          <li class="small" *ngFor="let pairing of pairingDisplay">{{ pairing }}</li>
+        </ul>
+      </div>
+      <br/>
+      <p style="color: #00B0F0;">Floorplan Setting</p>
+      <div class="row no-gutters">
+        <div class="col">
+          <mat-form-field hintLabel="in metres (m)" style="width: 80%;">
+            <mat-label>Actual Tank Height</mat-label>
+            <input type="number" step="0.01" matInput formControlName="tankHeight" required>
+            <mat-error>This field is required</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field hintLabel="in metres (m)" style="width: 80%;">
+            <mat-label>Actual Tank Circumference</mat-label>
+            <input type="number" step="0.01" matInput formControlName="tankCircumference" required>
+            <mat-error>This field is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <br/>
+      <div class="row no-gutters">
+        <div class="col">
+          <p>Upload Floorplan Image</p>
+          <!-- Image Preview -->
+          <div *ngIf="!isNotImage && imagePreview !== '' && imagePreview">
+            <img class="image-preview" [src]="imagePreview">
+          </div>
+          <!-- Image Upload -->
+          <button mat-stroked-button type="button" (click)="imageInput.click()">Pick Image</button>
+          <input type="file" style="display: none;" #imageInput (change)="onImagePicked(imageInput)" required>
+          <p class="text-danger" *ngIf="isNotImage">Please only upload image</p>
+        </div>
+      </div>
+      <br/>
+      <div>
+        <button mat-button matStepperNext (click)="onProjectSettingDone()">Next</button>
+      </div>
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>
+        <div>Localization Algorithm Configuration</div>
+      </ng-template>
+
+      <div class="bg-white floorplan-overlay"
+          (resized)="onResized($event)">
+
+          <img id="uploadedFloorplan" #uploadedFloorplan>
+          <svg id="dragBoundary">
+              <!-- bottom -->
+              <line x1="0" [attr.x2]="uploadedFloorplanWidth" style="stroke:red;stroke-width:3"
+              cdkDrag cdkDragLockAxis="y" matTooltip="bottom"
+              [cdkDragFreeDragPosition]="floorplanValue.bottom" [cdkDragDisabled]="false"
+              (cdkDragEnded)="sliderChanged('bottom', $event)" cdkDragBoundary="#dragBoundary"/>
+              <!-- left -->
+              <line y1="0" [attr.y2]="uploadedFloorplanHeight" style="stroke:red;stroke-width:3"
+              cdkDrag cdkDragLockAxis="x" matTooltip="left"
+              [cdkDragFreeDragPosition]="floorplanValue.left" [cdkDragDisabled]="false"
+              (cdkDragEnded)="sliderChanged('left', $event)" cdkDragBoundary="#dragBoundary"/>
+              <!-- top -->
+              <line x1="0" [attr.x2]="uploadedFloorplanWidth" style="stroke:red;stroke-width:3"
+              cdkDrag cdkDragLockAxis="y" matTooltip="top"
+              [cdkDragFreeDragPosition]="floorplanValue.top" [cdkDragDisabled]="false"
+              (cdkDragEnded)="sliderChanged('top', $event)" cdkDragBoundary="#dragBoundary"/>
+              <!-- right -->
+              <line y1="0" [attr.y2]="uploadedFloorplanHeight" style="stroke:red;stroke-width:3"
+              cdkDrag cdkDragLockAxis="x" matTooltip="right"
+              [cdkDragFreeDragPosition]="floorplanValue.right" [cdkDragDisabled]="false"
+              (cdkDragEnded)="sliderChanged('right', $event)" cdkDragBoundary="#dragBoundary"/>
+              <!-- Starting Positions -->
+              <circle *ngFor="let start_coord of floorplanValue.start_coord; let i = index"
+              class="item" r="5" stroke="black" stroke-width="1" fill="#00B0F0"
+              cdkDrag [cdkDragDisabled]="false" matTooltip="{{pairingDisplay[i]}}"
+              [cdkDragFreeDragPosition]="start_coord" cdkDragBoundary="#dragBoundary"
+              (cdkDragEnded)="positionChanged(start_coord, $event)"/>
+          </svg>
+      </div>
+
+      <p class="mb-0" style="color: #00B0F0;">Floorplan Boundaries</p>
+      <div class="row no-gutters">
+        <div class="col">
+          <p><samp>left: {{localizationConfig.left.toFixed(3)}}</samp></p>
+          <p><samp>right: {{localizationConfig.right.toFixed(3)}}</samp></p>
+        </div>
+        <div class="col">
+          <p><samp>bottom: {{localizationConfig.bottom.toFixed(3)}}</samp></p>
+          <p><samp>top: {{localizationConfig.top.toFixed(3)}}</samp></p>
+        </div>
+      </div>
+
+      <div>
+        <p class="mb-0" style="color: #00B0F0;">Video & Flightlog Starting Positions</p>
+      <ul>
+        <li *ngFor="let coord of floorplanValue.start_coord; let i = index">
+          <samp>
+            {{ pairingDisplay[i] }}: ({{ localizationConfig.x_start_coord[i].toFixed(3)}}, {{ localizationConfig.y_start_coord[i].toFixed(3)}})
+          </samp>
+        </li>
+      </ul>
+      </div>
+
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>Confirm your information</ng-template>
+      <p>
+        <span style="color: #00B0F0;">Review Project Configuration</span><br/>
+        <span class="small"><samp>Changes are not possible once a project has been created</samp></span>
+      </p>
+      <div>
+        <p><b>Project Name:</b>
+          <br/>{{projectSettingForm.value.projectName}}
+        </p>
+        <p class="mb-0"><b>Video Filenames:</b></p>
+          <p class="mb-0" *ngFor="let video of projectSettingForm.value.videoFilenames.split(',')">
+            {{ video }}
+          </p>
+          <br/>
+        <p class="mb-0"><b>Flightlog Filenames:</b></p>
+          <p class="mb-0" *ngFor="let flightlog of projectSettingForm.value.flightlogFilenames.split(',')">
+            {{ flightlog }}
+          </p>
+          <br/>
+        <div>
+          <p><b>Floorplan Image:</b></p>
+          <div *ngIf="!isNotImage && imagePreview !== '' && imagePreview">
+            <img class="image-preview" [src]="imagePreview">
+          </div>
+        </div>
+        <p><b>Tank Height:</b>
+          <br/>{{projectSettingForm.value.tankHeight}} m
+        </p>
+        <p><b>Tank Circumference:</b>
+          <br/>{{projectSettingForm.value.tankCircumference}} m
+        </p>
+        <p class="mb-0"><b>Floorplan Boundaries:</b></p>
+          <p class="mb-0"><samp>Left: {{localizationConfig.left.toFixed(3)}}</samp></p>
+          <p class="mb-0"><samp>Right: {{localizationConfig.right.toFixed(3)}}</samp></p>
+          <p class="mb-0"><samp>Bottom: {{localizationConfig.bottom.toFixed(3)}}</samp></p>
+          <p class="" ><samp>Top: {{localizationConfig.top.toFixed(3)}}</samp></p>
+        <p class="mb-0"><b>Starting Position(s):</b></p>
+          <p class="mb-0" *ngFor="let value of localizationConfig.x_start_coord; let i = index">
+            <samp>({{localizationConfig.x_start_coord[i].toFixed(3)}}, {{localizationConfig.y_start_coord[i].toFixed(3)}})</samp>
+          </p>
+      </div>
+      <br/>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button (click)="submitProjectSetting()">Submit</button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</form>
+
+<p></p>
